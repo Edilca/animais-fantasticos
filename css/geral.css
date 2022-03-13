@@ -105,6 +105,24 @@ body {
     height: 370px;
     overflow-y: scroll;
     grid-column: 2;
+    position: relative;
+}
+.animais-lista span {
+    position: absolute;
+    bottom: 0;
+    right: 40%;
+    font-size: 60px;
+    font-weight: 1000;
+    color: #fb5;
+    animation: anima-seta 1s infinite alternate ease;
+}
+@keyframes anima-seta {
+    from {
+        top: 70%;
+    }
+    to {
+        top: 80%;
+    }
 }
 
 .animais-lista li {
