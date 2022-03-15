@@ -1,32 +1,45 @@
-export default class ScrollSuave {
-    constructor(links, options) {
-        this.linksInternos = document.querySelectorAll(links);
-        if (options === undefined) {
-            this.options = { behavior: 'smooth', block: 'start' };
-        } else {
-            this.options = options;
-        }
+export default class Modal {
+  constructor(botaoAbrir, botaoFechar, containerModal) {
+    this.botaoAbrir = document.querySelector(botaoAbrir);
+    this.botaoFechar = document.querySelector(botaoFechar);
+    this.containerModal = document.querySelector(containerModal);
 
-        this.scrollToSection = this.scrollToSection.bind(this);
-    }
+    // bind this ao callback para
+    // fazer referência ao objeto
+    // da classe
+    this.eventToggleModal = this.eventToggleModal.bind(this);
+    this.cliqueForaModal = this.cliqueForaModal.bind(this);
+  }
 
-    scrollToSection(event) {
-        event.preventDefault();
-        const href = event.currentTarget.getAttribute('href');
-        const section = document.querySelector(href);
-        section.scrollIntoView(this.options);
-    }
+  // abre ou fecha o modal
+  toggleModal() {
+    this.containerModal.classList.toggle('ativo');
+  }
 
-    addLinkEvent() {
-        this.linksInternos.forEach((link) => {
-            link.addEventListener('click', this.scrollToSection);
-        });
-    }
+  // adiciona o evento de toggle ao modal
+  eventToggleModal(event) {
+    event.preventDefault();
+    this.toggleModal();
+  }
 
-    init() {
-        if (this.linksInternos.length) {
-            this.addLinkEvent();
-        }
-        return this;
+  // fecha o modal ao clicar do lado de fora
+  cliqueForaModal(event) {
+    if (event.target === this.containerModal) {
+      this.toggleModal();
     }
+  }
+
+  // adiciona os eventos aos elementos do modal
+  addModalEvents() {
+    this.botaoAbrir.addEventListener('click', this.eventToggleModal);
+    this.botaoFechar.addEventListener('click', this.eventToggleModal);
+    this.containerModal.addEventListener('click', this.cliqueForaModal);
+  }
+
+  init() {
+    if (this.botaoAbrir && this.botaoFechar && this.containerModal) {
+      this.addModalEvents();
+    }
+    return this;
+  }
 }
